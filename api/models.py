@@ -1,11 +1,17 @@
 from django.db import models
 from django.contrib import admin
 
+
 class Employee(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
 
 class Device(models.Model):
     name = models.CharField(max_length=100)
@@ -15,6 +21,7 @@ class Device(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class Ledger(models.Model):
     employee = models.ForeignKey('Employee', on_delete=models.PROTECT)
     device = models.ForeignKey('Device', on_delete=models.PROTECT)
@@ -22,7 +29,7 @@ class Ledger(models.Model):
     return_date = models.DateTimeField(null=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
 
 admin.site.register(Employee)
 admin.site.register(Device)
